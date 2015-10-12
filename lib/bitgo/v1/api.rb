@@ -5,7 +5,7 @@ module Bitgo
 
 		class Api
 
-			attr_accessor :session_token
+			attr_accessor :session_token, :proxy
 
 			TEST = 'https://test.bitgo.com/api/v1'
 			LIVE = 'https://www.bitgo.com/api/v1'
@@ -328,7 +328,12 @@ module Bitgo
 				uri = URI(@end_point + path)
 
 				# Build the connection
-				http = Net::HTTP.new(uri.host, uri.port)
+				if @proxy
+			        	proxy_uri = URI.parse(@proxy)
+			        	http = Net::HTTP.new(uri.host, uri.port,proxy_uri.host, proxy_uri.port, proxy_uri.user, proxy_uri.password)
+			        else
+			        	http = Net::HTTP.new(uri.host, uri.port)
+			        end
 
 				if uri.scheme == 'https'
 					http.use_ssl = true
