@@ -5,7 +5,7 @@ module Bitgo
 
 		class Api
 
-			attr_accessor :session_token, :proxy, :skip_ssl_verification
+			attr_accessor :session_token, :proxy, :ssl_verify_mode
 
 			TEST = 'https://test.bitgo.com/api/v1'
 			LIVE = 'https://www.bitgo.com/api/v1'
@@ -337,7 +337,7 @@ module Bitgo
 
 				if uri.scheme == 'https'
 					http.use_ssl = true
-					http.verify_mode = OpenSSL::SSL::VERIFY_NONE if @skip_ssl_verification 
+					http.verify_mode = @ssl_verify_mode if @ssl_verify_mode
 				end
 
 				request = nil
