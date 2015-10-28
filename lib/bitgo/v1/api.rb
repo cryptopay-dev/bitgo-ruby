@@ -259,8 +259,7 @@ module Bitgo
         }
         #add optional params
         payload[:fee] = fee if fee
-        payload[:fee] = message if message
-        payload[:minConfirms] = min_confirmations if min_confirmations
+        payload[:message] = message if message
         call :post, '/wallet/' + wallet_id + '/sendcoins/', payload
       end
 
