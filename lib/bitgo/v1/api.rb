@@ -240,8 +240,13 @@ module Bitgo
         call :get, '/wallet/' + wallet_id + '/addresses'
       end
 
-      def list_wallet_transactions(wallet_id: self.wallet_id)
-        call :get, '/wallet/' + wallet_id + '/tx'
+      def list_wallet_transactions(wallet_id: self.wallet_id, options: nil)
+        url = if options and options.is_a?(Hash)
+                '/wallet/' + wallet_id + '/tx?' + options.to_query
+              else
+                '/wallet/' + wallet_id + '/tx'
+              end
+        call :get, url
       end
 
       # Creates a new address for an existing wallet. BitGo wallets consist of two independent chains of addresses, designated 0 and 1.
@@ -347,7 +352,6 @@ module Bitgo
         request = nil
         if method == :get
           request = Net::HTTP::Get.new(uri.request_uri)
-
         elsif method == :post
           request = Net::HTTP::Post.new(uri.request_uri)
         elsif method == :delete
@@ -357,8 +361,9 @@ module Bitgo
         else
           raise 'Unsupported request method'
         end
-
-        request.body = params.to_json
+        unless method == :get
+          request.body = params.to_json
+        end
 
         # Set JSON body
         request.add_field('Content-Type', 'application/json')
