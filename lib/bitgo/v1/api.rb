@@ -256,15 +256,15 @@ module Bitgo
         call :post, '/wallet/' + wallet_id + '/address/' + chain
       end
 
-      def send_coins_to_address(wallet_id: self.wallet_id, address: self.address, amount: self.amount, wallet_passphrase: self.wallet_passphrase)
+      def send_coins_to_address(wallet_id: self.wallet_id, address: self.address, amount: self.amount, wallet_passphrase: self.wallet_passphrase, min_confirms: self.min_confirms, enforce_min_confirms: self.enforce_min_confirms)
         payload = {
             address: address,
             amount: amount,
             walletPassphrase: wallet_passphrase
         }
         #add optional params
-        # payload[:fee] = fee if fee
-        # payload[:message] = message if message
+        payload[:minConfirms] = min_confirms if min_confirms
+        payload[:enforceMinConfirmsForChange] = enforce_min_confirms if enforce_min_confirms
         call :post, '/wallet/' + wallet_id + '/sendcoins/', payload
       end
 
