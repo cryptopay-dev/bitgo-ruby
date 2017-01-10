@@ -264,6 +264,15 @@ module Bitgo
 
       end
 
+      # Get the transaction on a wallet sequence ID that was passed in when sending an outgoing transaction (via sendCoins or sendTransaction).
+      # This is useful for tracking an unsigned/unconfirmed transaction via your own unique ID,
+      #  as Bitcoin transaction IDs are not defined before co-signing and malleable before confirmation.
+      #
+      #   A pending transaction that has not yet been co-signed by BitGo will still have a sequence id.
+      def get_transaction_by_sequence_id(wallet_id: self.wallet_id, sequence_id:)
+        call :get, "/api/v1/wallet/#{wallet_id}/tx/sequence/#{sequence_id}"
+      end
+
       ###############
       # Webhook APIs
       ###############
