@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'bitgo'
-  s.version     = '0.0.2'
+  s.version     = '0.0.3'
   s.date        = '2015-04-09'
   s.summary     = "Ruby wrapper for Bitgo and Bitgo Express API"
   s.description = "Ruby wrapper for Bitgo and Bitgo Express API"
@@ -8,5 +8,5 @@ Gem::Specification.new do |s|
   s.email       = 'gerry@coinhako.com'
   s.files       = ["lib/bitgo.rb", "lib/bitgo/v1/api.rb"]
   s.homepage    = 'https://www.bitgo.com/api/'
-  s.license       = 'MIT'
+  s.license     = 'MIT'
 end
