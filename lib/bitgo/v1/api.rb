@@ -270,7 +270,7 @@ module Bitgo
       #
       #   A pending transaction that has not yet been co-signed by BitGo will still have a sequence id.
       def get_transaction_by_sequence_id(wallet_id: self.wallet_id, sequence_id:)
-        call :get, "/api/v1/wallet/#{wallet_id}/tx/sequence/#{sequence_id}"
+        call :get, "/wallet/#{wallet_id}/tx/sequence/#{sequence_id}"
       end
 
       ###############
