@@ -260,8 +260,8 @@ module Bitgo
         call :post, '/wallet/' + wallet_id + '/sendcoins/', payload
       end
 
-      def send_coins_to_multiple_addresses()
-
+      def send_coins_to_multiple_addresses(wallet_id, payload = {})
+        call :post, '/wallet/' + wallet_id + '/sendmany', payload
       end
 
       # Get the transaction on a wallet sequence ID that was passed in when sending an outgoing transaction (via sendCoins or sendTransaction).
