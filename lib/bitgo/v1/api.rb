@@ -1,8 +1,8 @@
 module Bitgo
   module V1
 
-    class ApiError < RuntimeError;
-    end
+    class ApiError < RuntimeError; end
+    class NotFoundError < ApiError; end
 
     class Api
 
@@ -381,11 +381,13 @@ module Bitgo
           begin
             json_resp = JSON.parse(response.body)
           rescue => e
-            raise ApiError.new("Error Parsing Bitgo's response as JSON: #{e} , Bitgo response: #{response.body}")
+            raise(ApiError, "Error Parsing Bitgo's response as JSON: #{e} , Bitgo response: #{response.body}")
           end
 
           if json_resp.kind_of?(Hash) && json_resp["error"].nil? == false
-            raise ApiError.new(json_resp["error"])
+            raise(NotFoundError, json_resp['error']) if json_resp['error'].include?('sequence id not found')
+
+            raise(ApiError, json_resp['error'])
           end
 
           return json_resp
