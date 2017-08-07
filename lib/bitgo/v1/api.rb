@@ -386,7 +386,7 @@ module Bitgo
 
           if json_resp.is_a?(Hash) && json_resp["error"].nil? == false
             raise(
-              json_resp['error'].include?('sequence id not found') ? NotFoundError : ApiError,
+              response.code == '404' ? NotFoundError : ApiError,
               json_resp['error']
             )
           end
