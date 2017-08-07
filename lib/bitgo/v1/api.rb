@@ -384,10 +384,11 @@ module Bitgo
             raise(ApiError, "Error Parsing Bitgo's response as JSON: #{e} , Bitgo response: #{response.body}")
           end
 
-          if json_resp.kind_of?(Hash) && json_resp["error"].nil? == false
-            raise(NotFoundError, json_resp['error']) if json_resp['error'].include?('sequence id not found')
-
-            raise(ApiError, json_resp['error'])
+          if json_resp.is_a?(Hash) && json_resp["error"].nil? == false
+            raise(
+              json_resp['error'].include?('sequence id not found') ? NotFoundError : ApiError,
+              json_resp['error']
+            )
           end
 
           return json_resp
