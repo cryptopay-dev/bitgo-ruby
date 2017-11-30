@@ -6,14 +6,15 @@ module Bitgo
 
     class Api
 
-      attr_accessor :session_token, :proxy, :ssl_verify_mode
+      attr_accessor :session_token, :proxy, :ssl_verify_mode, :read_timeout
 
       TEST = 'https://test.bitgo.com/api/v1'
       LIVE = 'https://www.bitgo.com/api/v1'
       EXPRESS = 'http://127.0.0.1:3080/api/v1'
 
-      def initialize(end_point)
+      def initialize(end_point, read_timeout: 60.seconds)
         @end_point = end_point
+        @read_timeout = read_timeout
       end
 
       ###############
@@ -349,6 +350,8 @@ module Bitgo
           http.use_ssl = true
           http.verify_mode = @ssl_verify_mode if @ssl_verify_mode
         end
+
+        http.read_timeout = read_timeout
 
         request = nil
         if method == :get
